@@ -12,3 +12,8 @@
 ###> IDE ###
 /.idea/
 ###< IDE ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###

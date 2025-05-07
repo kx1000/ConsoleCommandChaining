@@ -15,6 +15,7 @@
         "symfony/yaml": "7.2.*"
     },
     "require-dev": {
+        "phpunit/phpunit": "^12.1"
     },
     "config": {
         "allow-plugins": {
@@ -33,7 +34,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "App\\Tests\\": "tests/",
+            "ChainCommandBundle\\Tests\\": "src/CommandChainBundle/Tests/"
         }
     },
     "replace": {
