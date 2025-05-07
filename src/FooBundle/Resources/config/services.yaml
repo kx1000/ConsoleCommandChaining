@@ -1,0 +1,3 @@
+services:
+  FooBundle\Command\FooHelloCommand:
+    tags: ['console.command']
