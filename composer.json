@@ -27,7 +27,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "CommandChainBundle\\": "src/CommandChainBundle/"
         }
     },
     "autoload-dev": {
