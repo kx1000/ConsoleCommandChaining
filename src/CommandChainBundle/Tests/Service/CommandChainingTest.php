@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\CommandChainBundle\Tests;
+namespace App\CommandChainBundle\Tests\Service;
 
 use CommandChainBundle\Service\CommandChainRegistry;
 use PHPUnit\Framework\TestCase;
