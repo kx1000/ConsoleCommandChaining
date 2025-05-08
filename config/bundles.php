@@ -5,6 +5,6 @@ return [
 
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     CommandChainBundle\CommandChainBundle::class => ['all' => true],
-    FooBundle\FooBundle::class => ['all' => true],
     BarBundle\BarBundle::class => ['all' => true],
+    FooBundle\FooBundle::class => ['all' => true],
 ];

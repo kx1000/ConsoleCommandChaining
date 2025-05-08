@@ -7,12 +7,13 @@ namespace CommandChainBundle\EventListener;
 use CommandChainBundle\Service\CommandChainRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Input\ArrayInput;
 
-class CommandChainListener
+readonly class CommandChainListener
 {
     public function __construct(
-        private readonly CommandChainRegistry $registry,
-        private readonly LoggerInterface $logger
+        private CommandChainRegistry $registry,
+        private LoggerInterface      $logger
     ) {}
 
     public function onConsoleCommand(ConsoleCommandEvent $event): void
@@ -21,6 +22,7 @@ class CommandChainListener
 
         // Check if it is a member
         $master = $this->registry->getMaster($commandName);
+
         if ($master !== null) {
             $event->disableCommand();
             $event->getOutput()->writeln("<error>{$commandName} command is a member of {$master} command chain and cannot be executed on its own.</error>");
@@ -45,7 +47,7 @@ class CommandChainListener
         $this->logger->info("Executing {$commandName} chain members:");
         foreach ($members as $member) {
             $command = $application->find($member);
-            $input = new \Symfony\Component\Console\Input\ArrayInput([]);
+            $input = new ArrayInput([]);
             $command->run($input, $output);
         }
 

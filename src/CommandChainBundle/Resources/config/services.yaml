@@ -3,12 +3,12 @@ services:
     resource: '../../*'
     exclude: '../../{DependencyInjection,Entity,Tests}'
 
-  CommandChainBundle\Service\CommandChainRegistry:
-    public: true
+  command_chain.registry:
+    class: CommandChainBundle\Service\CommandChainRegistry
 
   CommandChainBundle\EventListener\CommandChainListener:
     arguments:
-      $registry: '@CommandChainBundle\Service\CommandChainRegistry'
+      $registry: '@command_chain.registry'
       $logger: '@logger'
     tags:
       - { name: kernel.event_listener, event: console.command, method: onConsoleCommand }
