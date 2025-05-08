@@ -8,9 +8,13 @@ use CommandChainBundle\Service\CommandChainRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
 
+/**
+ * Event listener that handles the execution of command chains.
+ * This listener intercepts console command events and manages the execution of master commands
+ * and their associated member commands in the correct order.
+ */
 readonly class CommandChainListener
 {
     public function __construct(
@@ -18,6 +22,11 @@ readonly class CommandChainListener
         private LoggerInterface      $logger
     ) {}
 
+    /**
+     * Handles the console command event by either:
+     * - Preventing member commands from being executed directly
+     * - Executing master commands and their associated member commands in sequence
+     */
     public function onConsoleCommand(ConsoleCommandEvent $event): void
     {
         $commandName = $event->getCommand()->getName();

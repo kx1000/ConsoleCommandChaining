@@ -8,8 +8,16 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
+/**
+ * Compiler pass that processes command chain member services and registers them with the command chain registry.
+ * This pass is responsible for building the command chain relationships during container compilation.
+ */
 class CommandChainCompilerPass implements CompilerPassInterface
 {
+    /**
+     * Processes the container to register command chain members.
+     * Looks for services tagged with 'command_chain.member' and registers them with the command chain registry.
+     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->has('command_chain.registry')) {
