@@ -8,6 +8,8 @@ use CommandChainBundle\Service\CommandChainRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 readonly class CommandChainListener
 {
@@ -39,16 +41,29 @@ readonly class CommandChainListener
 
         $application = $event->getCommand()->getApplication();
         $output = $event->getOutput();
+        $bufferedOutput = new BufferedOutput();
 
         $this->logger->info("Executing {$commandName} command itself first:");
-
-        // command already running
+        
+        // Execute master command and capture its output
+        $event->getCommand()->run($event->getInput(), $bufferedOutput);
+        $masterOutput = trim($bufferedOutput->fetch());
+        if (!empty($masterOutput)) {
+            $this->logger->info($masterOutput);
+        }
 
         $this->logger->info("Executing {$commandName} chain members:");
         foreach ($members as $member) {
             $command = $application->find($member);
             $input = new ArrayInput([]);
-            $command->run($input, $output);
+            $bufferedOutput = new BufferedOutput();
+            $command->run($input, $bufferedOutput);
+            $memberOutput = trim($bufferedOutput->fetch());
+            if (!empty($memberOutput)) {
+                $this->logger->info($memberOutput);
+            }
+            // Also write to the original output
+            $output->writeln($memberOutput);
         }
 
         $this->logger->info("Execution of {$commandName} chain completed.");
