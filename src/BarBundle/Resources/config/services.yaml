@@ -1,0 +1,3 @@
+services:
+  BarBundle\Command\BarHiCommand:
+    tags: ['console.command'] 
