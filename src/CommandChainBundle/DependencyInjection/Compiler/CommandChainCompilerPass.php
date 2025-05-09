@@ -32,7 +32,7 @@ class CommandChainCompilerPass implements CompilerPassInterface
                 $commandClass = $commandDefinition->getClass();
                 
                 if (!is_subclass_of($commandClass, Command::class)) {
-                    continue;
+                    throw new \InvalidArgumentException(sprintf('Service "%s" must be a subclass of "%s".', $id, Command::class));
                 }
 
                 // Create a temporary instance to get the command name
